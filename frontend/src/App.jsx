@@ -1,14 +1,26 @@
 import React from 'react'
 import ButtonGradient from './assets/svg/ButtonGradient'
-import Button from './components/Button'
 import Header from './components/Header'
+import Hero from './components/Hero'
+import Signup from './components/Signup'
+import Signin from './components/Signin'
+import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 const App=() => {
   return (<>
+      <Router>
+        <Header/>
         <div className="pt-[4.75rem] lg:pt-[5.25rem]">
-          <Header/>
+          <Routes>
+            <Route path="/" element={<Hero/>}/>
+            <Route path="/Signup" element={<Signup/>}/>
+            <Route path="/Signin" element={<Signin/>}/>
+          </Routes>
         </div>
         <ButtonGradient />
+        <Footer/>
+      </Router>
   </>
   )
 }
