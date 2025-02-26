@@ -13,7 +13,7 @@ const Signin = () => {
           <form>
             <label htmlFor="username" className="block m-2">Username</label>
             <input
-              className="w-[100%] h-[100%] p-1 mb-3 border-n-1/50 rounded-sm size-1 bg-n-5"
+              className="w-[100%] h-[100%] p-1 mb-3 border-n-1/50 rounded-md size-1 bg-n-5"
               type="text"
               id="username"
               name="username"
@@ -23,7 +23,7 @@ const Signin = () => {
 
             <label htmlFor="email" className="block m-2">Email</label>
             <input
-              className="w-[100%] h-[100%] p-1 mb-1 border-n-1/50 rounded-sm size-1 bg-n-5"
+              className="w-[100%] h-[100%] p-1 mb-1 border-n-1/50 rounded-md size-1 bg-n-5"
               type="email"
               id="email"
               name="email"
@@ -33,7 +33,7 @@ const Signin = () => {
 
             <label htmlFor="password" className="block m-2">Password</label>
             <input
-              className="w-[100%] h-[100%] p-1 mb-1 border-n-1/50 rounded-sm size-1 bg-n-5"
+              className="w-[100%] h-[100%] p-1 mb-1 border-n-1/50 rounded-md size-1 bg-n-5"
               type="password"
               id="password"
               name="password"
