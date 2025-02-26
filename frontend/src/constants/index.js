@@ -44,22 +44,22 @@ import {
     },
     {
       id: "1",
-      title: "Editor",
+      title: "How to use",
       url: "#how-to-use",
     },
     {
       id: "2",
-      title: "Roadmap",
-      url: "#roadmap",
+      title: "Submit Code",
+      url: "/CodeEditor",
     },
     {
-      id: "4",
+      id: "3",
       title: "New account",
       url: "/Signup",
       onlyMobile: true,
     },
     {
-      id: "5",
+      id: "4",
       title: "Sign in",
       url: "/Signin",
       onlyMobile: true,
