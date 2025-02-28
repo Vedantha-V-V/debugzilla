@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import Section from './Section'
 import Button from './Button'
@@ -10,8 +10,13 @@ const Signin = () => {
   const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState('')
   
-  const { signIn, signInWithGoogle, error } = useAuth()
+  const { signIn, signInWithGoogle, error, setError } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setFormError('');
+    setError('');
+  }, [location.pathname, setError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault()
