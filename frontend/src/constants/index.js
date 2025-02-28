@@ -321,3 +321,18 @@ import {
       url: "#",
     },
   ];
+
+  export const editor = [
+    {
+      id: "0",
+      title: "Send",
+      iconUrl: telegram,
+      url: "#",
+    },
+    {
+      id:"1",
+      title:"plusSquare",
+      iconUrl:plusSquare,
+      url:"#"
+    }
+  ];
