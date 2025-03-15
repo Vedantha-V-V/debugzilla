@@ -18,6 +18,7 @@ import chromecast from "./chrome-cast.svg";
 import sliders04 from "./sliders-04.svg";
 import loading from "./loading.png";
 import background from "./background.jpg";
+import profile from './profile.svg'
 
 import curve from "./hero/curve.png";
 import robot from "./hero/robot.jpg";
@@ -33,6 +34,7 @@ import photoshop from "./collaboration/photoshop.png";
 import protopie from "./collaboration/protopie.png";
 import raindrop from "./collaboration/raindrop.png";
 import slack from "./collaboration/slack.png";
+import pencil from "./pencil.svg"
 
 import service1 from "./services/service-1.png";
 import service2 from "./services/service-2.png";
@@ -86,7 +88,7 @@ export {
   homeSmile,
   file02,
   searchMd,
-  plusSquare,
+  plusSquare,profile,pencil,
   recording03,
   recording01,
   disc02,

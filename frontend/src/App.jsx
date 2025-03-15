@@ -5,6 +5,7 @@ import Hero from './components/Hero'
 import Signup from './components/Signup'
 import Signin from './components/Signin'
 import CodeEditor from './components/CodeEditor'
+import ProfilePage from './components/ProfilePage'
 import Footer from './components/Footer'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
@@ -18,6 +19,7 @@ const App=() => {
             <Route path="/Signup" element={<Signup/>}/>
             <Route path="/Signin" element={<Signin/>}/>
             <Route path="/CodeEditor" element={<CodeEditor/>}/>
+            <Route path="/Profile" element={<ProfilePage/>}/>
           </Routes>
         </div>
         <ButtonGradient />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import { useLocation, Link } from 'react-router-dom'
-import { debugzilla } from "../assets"
+import { debugzilla,profile } from "../assets"
 import { navigation } from '../constants'
 import Button from './Button'
 import MenuSvg from '../assets/svg/MenuSvg'
@@ -104,7 +104,7 @@ const Header = () => {
               {currentUser ? (
                 <div className="flex items-center">
                   <div className="mr-4 text-n-1">
-                    Hello, {username}
+                    <Link to="/Profile"><img src={profile} width={30} height={30} className="text-n-1"/></Link>
                   </div>
                   <Button className="ml-2" onClick={handleLogout}>Sign Out</Button>
                 </div>
