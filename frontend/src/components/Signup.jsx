@@ -15,24 +15,34 @@ const Signup = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-      setFormError('');
-      setError('');
-  }, [location.pathname, setError]);
+    setFormError('');
+    setError('');
+  
+    console.log("Auth User:", user);
+  
+    if (user) {
+      navigate('/');
+      window.location.href = '/'; // Force reload to reflect login state
+    }
+  }, [location.pathname, setError, user, navigate]);
+  
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setFormError('')
-    setLoading(true)
-    
+    e.preventDefault();
+    setFormError('');
+    setLoading(true);
+  
     try {
-      await signUp(username, email, password)
-      navigate('/')
+      await signUp(username, email, password);
+      navigate('/');  // This should work if user state updates correctly
+      window.location.href = '/'; // Force reload if navigate fails
     } catch (err) {
-      setFormError(err.message || 'Failed to create account')
+      setFormError(err.message || 'Failed to create account');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+  
 
   const handleGoogleSignIn = async () => {
     setFormError('')

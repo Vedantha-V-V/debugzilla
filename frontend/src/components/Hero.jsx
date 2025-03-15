@@ -23,7 +23,7 @@ const Hero = () => {
             Unleash the power of AI within DebugZilla. Upgrade your productivity
             with DebugZilla, the open AI chat app.
           </p>
-          <Button href="/Signup" white>
+          <Button href="/Signup" >
             Get started
           </Button>
         </div>
