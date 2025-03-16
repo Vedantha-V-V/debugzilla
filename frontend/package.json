@@ -10,11 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.0.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "axios": "^1.7.9",
     "bcryptjs": "^3.0.2",
-    "firebase": "^11.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-just-parallax": "^3.1.16",
+    "react-markdown": "^10.1.0",
+    "react-redux": "^9.0.0",
     "react-router-dom": "^7.2.0",
     "scroll-lock": "^2.1.5"
   },

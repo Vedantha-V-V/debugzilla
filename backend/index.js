@@ -9,9 +9,10 @@ const startServer = async () => {
         console.log('Attempting to connect to the database...');
         await connectDB();
         console.log('Database connection successful. Starting server...');
-        console.log("Port:", process.env.PORT);
-        app.listen(8080||process.env.PORT, () => {
-            console.log(`Server is running !! at port ${process.env.PORT}`);
+        
+        const PORT = process.env.PORT || 5000;
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
         });
     } catch (error) {
         console.error("MONGO DB CONNECTION FAILED (src/index.js): ", error);

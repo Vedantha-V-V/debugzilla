@@ -1,9 +1,13 @@
 const { Submission } = require("../models/submission.models");
-const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+if (!process.env.GEMINI_API_KEY) {
+    throw new Error('GEMINI_API_KEY is not set in environment variables');
+}
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 const reviewCode = async (req, res) => {
     try {
@@ -18,11 +22,9 @@ const reviewCode = async (req, res) => {
             return res.status(404).json({ message: "Submission not found." });
         }
 
-        // AI Code review (via Gemini API)
         console.log("Sending code to Gemini AI for analysis...");
         const aiResponse = await getAIReview(submission.code, submission.language);
 
-        // Update submission with AI feedback
         submission.processingStatus = "completed";
         submission.feedback = {
             aiReview: aiResponse.feedback,
@@ -30,7 +32,10 @@ const reviewCode = async (req, res) => {
             grade: aiResponse.grade,
         };
         submission.autoFixCode = aiResponse.autoFixCode;
-        submission.bigOAnalysis = aiResponse.bigO;
+        submission.complexity = {
+            time: aiResponse.timeComplexity,
+            space: aiResponse.spaceComplexity
+        };
         submission.securityReview = aiResponse.securityIssues;
 
         await submission.save();
@@ -42,43 +47,72 @@ const reviewCode = async (req, res) => {
     }
 };
 
-// Function to send the code to Gemini AI for review
 const getAIReview = async (code, language) => {
     try {
-        const prompt = `
-            Please review the following code written in ${language} and provide:
-            1. Feedback on code quality.
-            2. Static analysis results (e.g., potential issues, bugs).
-            3. A grade from 1 to 10 based on code quality.
-            5. Suggestions for code improvement.
-            6. Time complexity (Big O notation).
-            7. Security issues (if any).
-            8. IF THE PROMPT IS NOT RELATED TO CODING (BE INTELLIGENT ENOUGH TO CLASSIFY IT), SEND THE RESPONSE "YOU ARE ONLY ALLOWED TO ASK CODING RELATED QUESTIONS."
+        const reviewPrompt = `
+            Please review the following code written in ${language} and provide a CONCISE analysis:
+            
+            1. Feedback: Give 2-3 bullet points on code quality (MAX 100 words)
+            2. Static Analysis: List potential issues/bugs in bullet points (MAX 100 words)
+            3. Grade: Provide a score from 1-10 based on code quality
+            4. Improvements: List 2-3 specific code improvements as bullet points (MAX 100 words)
+            5. Security: Identify any security issues in bullet points (if none, state "No security issues found")
+            
+            Use markdown formatting. Keep all responses SHORT and FOCUSED.
+            Format security and static analysis as bullet lists.
+            
+            IF THE PROMPT IS NOT RELATED TO CODING, RESPOND ONLY WITH: "YOU ARE ONLY ALLOWED TO ASK CODING RELATED QUESTIONS."
 
             Code:
             ${code}
         `;
 
-        const response = await axios.post(
-            GEMINI_URL,
-            { contents: [{ parts: [{ text: prompt }] }] },
-            { headers: { "Content-Type": "application/json" } }
-        );
+        const reviewResponse = await model.generateContent(reviewPrompt);
+        const reviewData = reviewResponse.response.text() || '';
 
-        const aiResponse = response.data.candidates[0].content.parts[0].text.trim();
+        const complexityPrompt = `Analyze only the time and space complexity of this code written in ${language}:
+            ${code}
+            Format your response exactly like this:
+            Time Complexity: O(?)
+            Space Complexity: O(?)`;
+
+        const complexityResponse = await model.generateContent(complexityPrompt);
+        const complexityData = complexityResponse.response.text() || '';
+
+        const timeComplexityMatch = complexityData.match(/Time Complexity: (O\([^)]+\))/i);
+        const spaceComplexityMatch = complexityData.match(/Space Complexity: (O\([^)]+\))/i);
+
+        const timeComplexity = timeComplexityMatch ? timeComplexityMatch[1] : 'O(n)';
+        const spaceComplexity = spaceComplexityMatch ? spaceComplexityMatch[1] : 'O(n)';
 
         return {
-            feedback: aiResponse,
-            staticAnalysis: "No major issues detected.",
-            grade: Math.floor(Math.random() * 10) + 1,
-            autoFixCode: code.replace("var", "let"), // Example of a refactor (could be dynamic)
-            bigO: "O(n^2)", // Example Big O (could be more accurate with context)
-            securityIssues: "No vulnerabilities found."
+            feedback: reviewData,
+            staticAnalysis: extractStaticAnalysis(reviewData),
+            grade: extractGrade(reviewData),
+            autoFixCode: code,
+            timeComplexity,
+            spaceComplexity,
+            securityIssues: extractSecurityIssues(reviewData)
         };
     } catch (error) {
         console.error("Error communicating with Gemini AI:", error);
-        throw new Error("AI review failed.");
+        throw new Error("AI review failed: " + error.message);
     }
 };
 
-module.exports = { reviewCode };
+const extractStaticAnalysis = (text) => {
+    const staticAnalysisMatch = text.match(/static analysis[^:]*:(.*?)(?=\n\d|$)/is);
+    return staticAnalysisMatch ? staticAnalysisMatch[1].trim() : "No major issues detected.";
+};
+
+const extractGrade = (text) => {
+    const gradeMatch = text.match(/grade.*?(\d+)/i);
+    return gradeMatch ? parseInt(gradeMatch[1]) : Math.floor(Math.random() * 10) + 1;
+};
+
+const extractSecurityIssues = (text) => {
+    const securityMatch = text.match(/security issues[^:]*:(.*?)(?=\n\d|$)/is);
+    return securityMatch ? securityMatch[1].trim() : "No vulnerabilities found.";
+};
+
+module.exports = { reviewCode, getAIReview };

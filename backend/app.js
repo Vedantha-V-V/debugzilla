@@ -13,11 +13,9 @@ app.use(cookieParser());
 const userRoutes = require("./routes/user.routes");
 const submissionRoutes = require("./routes/submission.routes");
 const aiReviewRoutes = require("./routes/ai.routes.js");
-const executeRoutes = require("./routes/execution.routes");
 
 app.use("/api", userRoutes);
 app.use("/api", submissionRoutes);
 app.use("/api", aiReviewRoutes);
-app.use("/api", executeRoutes);
 
 module.exports = { app };

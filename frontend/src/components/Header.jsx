@@ -1,48 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import { useLocation, Link } from 'react-router-dom'
-import { debugzilla,profile } from "../assets"
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../redux/slices/authSlice'
+import { debugzilla, profile } from "../assets"
 import { navigation } from '../constants'
 import Button from './Button'
 import MenuSvg from '../assets/svg/MenuSvg'
 import { HamburgerMenu } from "./design/Header"
-import { useAuth } from '../context/authContext'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../firebase/config'
 
 const Header = () => {
-  const { currentUser, logOut } = useAuth()
+  const { user } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const pathname = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false)
-  const [username, setUsername] = useState("")
+  const [profileImage, setProfileImage] = useState(user?.profilePicture || profile)
   
-  // Fetch username from Firestore when currentUser changes
+  // Update profile image whenever user data changes
   useEffect(() => {
-    const fetchUsername = async () => {
-      if (!currentUser) {
-        setUsername("");
-        return;
-      }
-
-      try {
-        const userRef = doc(db, "users", currentUser.uid);
-        const userSnap = await getDoc(userRef);
-        
-        if (userSnap.exists() && userSnap.data().username) {
-          setUsername(userSnap.data().username);
-        } else {
-          // Fallback if username not found in Firestore
-          setUsername(currentUser.displayName || currentUser.email.split('@')[0]);
-        }
-      } catch (error) {
-        console.error("Error fetching username:", error);
-        setUsername(currentUser.displayName || currentUser.email.split('@')[0]);
-      }
-    };
-    
-    fetchUsername();
-  }, [currentUser]);
-
+    if (user?.profilePicture) {
+      setProfileImage(user.profilePicture);
+    } else {
+      setProfileImage(profile);
+    }
+  }, [user]);
+  
   const toggleNavigation = () => {
     if(openNavigation){
       setOpenNavigation(false);
@@ -59,12 +41,8 @@ const Header = () => {
     setOpenNavigation(false);
   }
 
-  const handleLogout = async () => {
-    try {
-      await logOut();
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
+  const handleLogout = () => {
+    dispatch(logout());
   }
 
   return (
@@ -83,7 +61,7 @@ const Header = () => {
                 <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
                   {navigation.map((item) => {
                     // Skip auth-only links if user isn't logged in
-                    if (item.authRequired && !currentUser) return null;
+                    if (item.authRequired && !user) return null;
                     
                     return (
                       <a key={item.id} 
@@ -101,10 +79,18 @@ const Header = () => {
             </nav>
 
             <div className="flex items-center ml-auto">
-              {currentUser ? (
+              {user ? (
                 <div className="flex items-center">
                   <div className="mr-4 text-n-1">
-                    <Link to="/Profile"><img src={profile} width={30} height={30} className="text-n-1"/></Link>
+                    <Link to="/Profile">
+                      <img 
+                        src={profileImage} 
+                        width={30} 
+                        height={30} 
+                        className="rounded-full object-cover w-8 h-8"
+                        alt={user?.username || "Profile"}
+                      />
+                    </Link>
                   </div>
                   <Button className="ml-2" onClick={handleLogout}>Sign Out</Button>
                 </div>

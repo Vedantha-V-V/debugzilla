@@ -3,10 +3,8 @@ dotenv.config();
 
 const mongoose = require('mongoose');
 
-// Import DB_NAME from constants.js
 const { DB_NAME } = require('../constants.js');
 
-//this connects to the database
 const connectDB = async () => {
     try {
         const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);
