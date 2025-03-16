@@ -16,7 +16,6 @@ const Header = () => {
   const [openNavigation, setOpenNavigation] = useState(false)
   const [profileImage, setProfileImage] = useState(user?.profilePicture || profile)
   
-  // Update profile image whenever user data changes
   useEffect(() => {
     if (user?.profilePicture) {
       setProfileImage(user.profilePicture);
@@ -60,8 +59,9 @@ const Header = () => {
             lg:bg-transparent`}>
                 <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
                   {navigation.map((item) => {
-                    // Skip auth-only links if user isn't logged in
                     if (item.authRequired && !user) return null;
+                    
+                    if ((item.title === "Sign in" || item.title === "New account") && user) return null;
                     
                     return (
                       <a key={item.id} 

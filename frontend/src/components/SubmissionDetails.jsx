@@ -1,36 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSubmissionById } from '../redux/slices/submissionSlice';
-import { executeCode, reset } from '../redux/slices/aiSlice';
 import ReactMarkdown from 'react-markdown';
 import Section from './Section';
-import Button from './Button';
 
 const SubmissionDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [input, setInput] = useState('');
-  const [showExecute, setShowExecute] = useState(false);
   
   const { submission } = useSelector((state) => state.submissions);
-  const { executionResult, isLoading } = useSelector((state) => state.ai);
 
-  // Initial load of submission data
   useEffect(() => {
     dispatch(getSubmissionById(id));
     return () => {
       dispatch(reset());
     };
   }, [dispatch, id]);
-
-  const handleExecuteCode = () => {
-    dispatch(executeCode({ 
-      language: submission.language, 
-      code: submission.code,
-      input: input 
-    }));
-  };
 
   if (!submission) {
     return (

@@ -21,7 +21,6 @@ const CodeEditor = () => {
 
   useEffect(() => {
     if (isSuccess && submission) {
-      // Redirect to the submission details page
       navigate(`/submission/${submission._id}`);
     }
 

@@ -116,7 +116,6 @@ export const authSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        // Merge the updated user data with existing user data
         state.user = { ...state.user, ...action.payload };
       })
       .addCase(updateProfile.rejected, (state, action) => {

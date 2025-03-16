@@ -9,14 +9,12 @@ const login = async (userData) => {
   const response = await api.post('/login', userData);
   
   if (response.data && response.data.token) {
-    // After login, immediately fetch the complete user profile
     const profileResponse = await api.get('/user', {
       headers: {
         Authorization: `Bearer ${response.data.token}`
       }
     });
     
-    // Store the complete user data with token and profile info
     const completeUserData = {
       ...response.data,
       ...profileResponse.data
@@ -38,7 +36,6 @@ const logout = async () => {
 const getProfile = async () => {
   const response = await api.get('/user');
   
-  // Update the localStorage with the latest profile data
   if (response.data) {
     const user = JSON.parse(localStorage.getItem('user')) || {};
     const updatedUser = { ...user, ...response.data };
@@ -51,7 +48,6 @@ const getProfile = async () => {
 const updateProfile = async (userData) => {
   const response = await api.patch('/user', userData);
   
-  // Update the localStorage with the latest profile data
   if (response.data) {
     const user = JSON.parse(localStorage.getItem('user')) || {};
     const updatedUser = { ...user, ...response.data };

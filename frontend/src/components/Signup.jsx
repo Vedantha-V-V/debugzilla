@@ -36,13 +36,10 @@ const Signup = () => {
     setFormError('')
     
     try {
-      // First register the user
       await dispatch(register({ name, username, email, password })).unwrap();
       
-      // After successful registration, automatically log the user in
       await dispatch(login({ email, password })).unwrap();
       
-      // Navigate to home page after successful login
       navigate('/');
     } catch (error) {
       setFormError(error);
