@@ -3,8 +3,10 @@ import Section from "./Section"
 import Button from "./Button"
 import { curve } from "../assets"
 import Benefits from "./Benefits"
+import { useSelector, useDispatch } from 'react-redux'
 
 const Hero = () => {
+  const { user } = useSelector((state) => state.auth)
   return (<>
     <Section
     className="pt-[12rem] -mt-[5.25rem]"
@@ -23,8 +25,8 @@ const Hero = () => {
             Unleash the power of AI within DebugZilla. Upgrade your productivity
             with DebugZilla, the open AI chat app.
           </p>
-          <Button href="/Signup" >
-            Get started
+          <Button>
+            {user ? <a href="/CodeEditor">Get started </a>:<a href="/SignUp">Get started</a>}
           </Button>
         </div>
     </div>

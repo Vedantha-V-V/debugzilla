@@ -8,10 +8,9 @@ import {
     disc02,
     discord,
     discordBlack,
-    facebook,
     figma,
     file02,
-    framer,
+    framer,github,
     homeSmile,
     instagram,
     notification2,
@@ -32,8 +31,7 @@ import {
     slack,
     sliders04,
     telegram,
-    twitter,
-    yourlogo,
+    twitter
   } from "../../src/assets";
   
   export const navigation = [
@@ -44,22 +42,17 @@ import {
     },
     {
       id: "1",
-      title: "How to use",
-      url: "#how-to-use",
-    },
-    {
-      id: "2",
       title: "Submit Code",
       url: "/CodeEditor",
     },
     {
-      id: "3",
+      id: "2",
       title: "New account",
       url: "/Signup",
       onlyMobile: true,
     },
     {
-      id: "4",
+      id: "3",
       title: "Sign in",
       url: "/Signin",
       onlyMobile: true,
@@ -70,7 +63,7 @@ import {
   
   export const notificationImages = [notification4, notification3, notification2];
   
-  export const companyLogos = [yourlogo, yourlogo, yourlogo, yourlogo, yourlogo];
+  //export const companyLogos = [yourlogo, yourlogo, yourlogo, yourlogo, yourlogo];
   
   export const brainwaveServices = [
     "Photo generating",
@@ -290,7 +283,7 @@ import {
   ];
   
   export const socials = [
-    {
+    /*{
       id: "0",
       title: "Discord",
       iconUrl: discordBlack,
@@ -313,12 +306,12 @@ import {
       title: "Telegram",
       iconUrl: telegram,
       url: "#",
-    },
+    },*/
     {
       id: "4",
-      title: "Facebook",
-      iconUrl: facebook,
-      url: "#",
+      title: "Github",
+      iconUrl: github,
+      url: "https://github.com/Vedantha-V-V/debugzilla",
     },
   ];
 

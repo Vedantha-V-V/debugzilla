@@ -7,6 +7,9 @@ import { robot } from '../assets';
 import { submitCode, reset } from '../redux/slices/submissionSlice';
 
 const CodeEditor = () => {
+  const myDate = new Date()
+  const hour = myDate.toTimeString()[0] + myDate.toTimeString()[1]
+  const { user} = useSelector((state) => state.auth)
   const [code, setCode] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -52,26 +55,27 @@ const CodeEditor = () => {
 
   return (
     <Section>
-      <div className="relative max-w-5xl mx-auto xl:mb-24 bg-cover bg-center p-6 rounded-2xl" style={{ backgroundImage: `url(${robot})` }}> 
-        <div className="relative z-10 p-6 bg-n-8 bg-opacity-80 rounded-lg"> 
-          {/* Input fields */}
-          <div className="mb-4">
+      
+      <div className="relative max-w-5xl mx-auto xl:mb-24 bg-cover bg-center p-6 rounded-2xl" /*style={{ backgroundImage: `url(${robot})` }}*/>
+        <div className="relative z-10 p-6 bg-n-8 bg-opacity-80 rounded-lg items-center"> 
+          <h1 className="h2 text-center mb-2 text-n-2">Good {hour > 12 ? 'Evening':'Morning'} {user.username}</h1>
+          <div className="flex mb-4 items-center flex-row">
             <input
-              className="w-full p-2 mb-2 bg-n-5 rounded"
+              className="w-full p-2 m-2 bg-n-5 rounded"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={isLoading || isSubmitting}
             />
             <input
-              className="w-full p-2 mb-2 bg-n-5 rounded"
+              className="w-full p-2 m-2 bg-n-5 rounded"
               placeholder="Description (optional)"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={isLoading || isSubmitting}
             />
             <select 
-              className="w-full p-2 bg-n-5 rounded"
+              className="w-full m-2 p-2 bg-n-5 rounded"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
               disabled={isLoading || isSubmitting}
