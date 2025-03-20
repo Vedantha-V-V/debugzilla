@@ -46,7 +46,11 @@ const submissionSchema = new mongoose.Schema({
         time: { type: String },
         space: { type: String }
     },
-    securityReview: { type: String }
+    securityReview: { type: String },
+    output: {
+        type: String, // Stores the output of the code execution
+        default: null,
+    }
 });
 
 const Submission = mongoose.model('Submission', submissionSchema);
