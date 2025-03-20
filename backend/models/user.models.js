@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
         },
         profilePicture: { 
             type: String, 
-            default: "https://ui-avatars.com/api/?name=User&background=random" 
+            default: "https://avatars.githubusercontent.com/u/1503559?v=4" 
         },
         submissionHistory: [
             {

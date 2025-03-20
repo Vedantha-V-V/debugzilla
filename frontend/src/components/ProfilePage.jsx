@@ -45,7 +45,7 @@ const ProfilePage = () => {
         if (trimmedValue === "") {
           const updatedData = { 
             github: "",
-            profilePicture: `https://ui-avatars.com/api/?name=${user.name}&background=random` // Default avatar
+            profilePicture: `https://avatars.githubusercontent.com/u/1503559?v=4`
           };
           
           dispatch(updateProfile(updatedData))

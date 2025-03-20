@@ -58,6 +58,18 @@ export const deleteSubmission = createAsyncThunk(
   }
 );
 
+export const getUserSubmissions = createAsyncThunk(
+  'submissions/getUserSubmissions',
+  async (_, thunkAPI) => {
+    try {
+      return await submissionService.getUserSubmissions();
+    } catch (error) {
+      const message = error.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const submissionSlice = createSlice({
   name: 'submission',
   initialState,
@@ -116,11 +128,25 @@ export const submissionSlice = createSlice({
       .addCase(deleteSubmission.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        const idToRemove = action.payload.id || action.meta.arg;
         state.submissions = state.submissions.filter(
-          (submission) => submission._id !== action.payload.id
+          (submission) => submission._id !== idToRemove
         );
       })
       .addCase(deleteSubmission.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getUserSubmissions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserSubmissions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.submissions = action.payload;
+      })
+      .addCase(getUserSubmissions.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

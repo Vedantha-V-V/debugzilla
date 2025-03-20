@@ -7,7 +7,7 @@
     "frontend": "cd frontend && npm run dev",
     "backend": "cd backend && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "ia": "cd frontend && npm install && cd ../backend && npm install"
+    "ia": "npm i && cd frontend && npm install && cd ../backend && npm install"
   },
   "keywords": ["code-review", "ai", "debugging"],
   "author": "",

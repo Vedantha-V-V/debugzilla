@@ -95,9 +95,11 @@ const Header = () => {
                   <Button className="ml-2" onClick={handleLogout}>Sign Out</Button>
                 </div>
               ) : (
-                <Button className="hidden lg:flex">
-                  <Link to="/Signin">Sign In</Link>
-                </Button>
+                <Link to="/Signin">
+                  <Button className="hidden lg:flex">
+                    Sign In
+                  </Button>
+                </Link>
               )}
               
               <Button className="ml-2 lg:hidden" px="px-3"

@@ -24,23 +24,25 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
-      <div className="pt-[4.75rem] lg:pt-[5.25rem]">
-        <Routes>
-          <Route path="/" element={<Hero />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Signin" element={<Signin />} />
-          
-          {/* Protected routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/CodeEditor" element={<CodeEditor />} />
-            <Route path="/Profile" element={<ProfilePage />} />
-            <Route path="/submission/:id" element={<SubmissionDetails />} />
-          </Route>
-        </Routes>
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <div className="pt-[4.75rem] lg:pt-[5.25rem] flex-grow">
+          <Routes>
+            <Route path="/" element={<Hero />} />
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/Signin" element={<Signin />} />
+            
+            {/* Protected routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/CodeEditor" element={<CodeEditor />} />
+              <Route path="/Profile" element={<ProfilePage />} />
+              <Route path="/submission/:id" element={<SubmissionDetails />} />
+            </Route>
+          </Routes>
+        </div>
+        <ButtonGradient />
+        <Footer />
       </div>
-      <ButtonGradient />
-      <Footer />
     </Router>
   )
 }

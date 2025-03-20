@@ -1,11 +1,11 @@
-const { Submission } = require("../models/submission.models"); 
+const { Submission } = require("../models/submission.models");
 const { User } = require("../models/user.models");
 const { getAIReview } = require("./ai.controller");
 
 const submitCode = async (req, res) => {
     try {
         const { title, description, language, code } = req.body;
-        
+
         if (!title || !language || !code) {
             return res.status(400).json({ message: "Title, language, and code are required." });
         }
@@ -21,15 +21,15 @@ const submitCode = async (req, res) => {
 
         const savedSubmission = await newSubmission.save();
 
-        await User.findByIdAndUpdate(req.user.userId, { 
-            $push: { submissionHistory: savedSubmission._id } 
+        await User.findByIdAndUpdate(req.user.userId, {
+            $push: { submissionHistory: savedSubmission._id }
         });
 
         try {
             console.log("Automatically starting AI review for submission:", savedSubmission._id);
-            
+
             const aiResponse = await getAIReview(code, language);
-            
+
             savedSubmission.processingStatus = "completed";
             savedSubmission.feedback = {
                 aiReview: aiResponse.feedback,
@@ -44,7 +44,7 @@ const submitCode = async (req, res) => {
             savedSubmission.securityReview = aiResponse.securityIssues;
 
             await savedSubmission.save();
-            
+
             console.log("AI review completed automatically");
         } catch (aiError) {
             console.error("Error in automatic AI review:", aiError);
@@ -60,11 +60,12 @@ const submitCode = async (req, res) => {
 
 const getSubmissions = async (req, res) => {
     try {
-        const { language, status, minGrade, maxGrade } = req.query;
+        const { language, status, minGrade, maxGrade, userId } = req.query;
         let filter = {};
 
         if (language) filter.language = language;
         if (status) filter.processingStatus = status;
+        if (userId) filter.author = userId;
         if (minGrade || maxGrade) {
             filter["feedback.grade"] = {};
             if (minGrade) filter["feedback.grade"].$gte = parseInt(minGrade);
@@ -90,4 +91,23 @@ const getSubmissionById = async (req, res) => {
     }
 };
 
-module.exports = { submitCode, getSubmissions, getSubmissionById };
+const deleteSubmissionById = async (req, res) => {
+    try {
+        const submission = await Submission.findById(req.params.id);
+        if (!submission) {
+            return res.status(404).json({ message: "Submission not found." });
+        }
+
+        if (submission.author.toString() !== req.user.userId) {
+            return res.status(403).json({ message: "You are not authorized to delete this submission." });
+        }
+
+        await Submission.deleteOne({ _id: req.params.id });
+        
+        res.status(200).json({ message: "Submission deleted successfully!", id: req.params.id });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting submission", error: error.message });
+    }
+}
+
+module.exports = { submitCode, getSubmissions, getSubmissionById, deleteSubmissionById };

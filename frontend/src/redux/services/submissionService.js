@@ -19,12 +19,22 @@ const submitCode = async (submissionData) => {
   }
 };
 
-const getSubmissions = async () => {
+const getSubmissions = async (filters = {}) => {
   try {
-    const response = await api.get('/submission');
+    const queryParams = new URLSearchParams(filters).toString();
+    const response = await api.get(`/submission${queryParams ? `?${queryParams}` : ''}`);
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch submissions. Please try again later.");
+  }
+};
+
+const getUserSubmissions = async () => {
+  try {
+    const response = await api.get('/user/submissions');
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch your submissions. Please try again later.");
   }
 };
 
@@ -50,7 +60,8 @@ const submissionService = {
   submitCode,
   getSubmissions,
   getSubmissionById,
-  deleteSubmission
+  deleteSubmission,
+  getUserSubmissions
 };
 
 export default submissionService;
