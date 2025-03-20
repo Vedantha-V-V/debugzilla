@@ -183,10 +183,30 @@ const ProfilePage = () => {
                         autoFocus
                       />
                     ) : (
-                      <p><span className="font-semibold text-neutral-600">Github</span> {userData.github}</p>
+                      <p>
+                        <span className="font-semibold text-neutral-600">GitHub</span>{" "}
+                        {userData.github ? (
+                          <a
+                            href={`https://github.com/${userData.github}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline"
+                          >
+                            {userData.github}
+                          </a>
+                        ) : (
+                          "Not provided"
+                        )}
+                      </p>
                     )}
-                    <img src={pencil} width={25} height={25} alt="Edit" className="cursor-pointer text-gray-400 hover:text-gray-200"
-                      onClick={() => handleEditClick("github", userData.github)}/>
+                    <img
+                      src={pencil}
+                      width={25}
+                      height={25}
+                      alt="Edit"
+                      className="cursor-pointer text-gray-400 hover:text-gray-200"
+                      onClick={() => handleEditClick("github", userData.github)}
+                    />
                   </div>
                 </div>
               </div>
