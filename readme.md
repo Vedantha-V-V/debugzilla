@@ -1,6 +1,6 @@
 # DebugZilla
 
-DebugZilla is a comprehensive debugging and code review tool designed to streamline the process of identifying, analyzing, and resolving issues in software projects. It combines real-time debugging capabilities with advanced AI-powered code analysis to help developers write better, more efficient, and error-free code.
+DebugZilla is a comprehensive code review tool designed to streamline the process of identifying, analyzing, and resolving issues in software projects. It combines real-time debugging capabilities with advanced AI-powered code analysis to help developers write better, more efficient, and error-free code.
 
 ---
 
@@ -23,15 +23,12 @@ DebugZilla is a comprehensive debugging and code review tool designed to streaml
 DebugZilla offers a wide range of features to enhance the debugging and development experience:
 
 ### Core Features
-- **Real-Time Debugging**: Monitor and debug your application in real-time with live updates.
 - **AI-Powered Code Review**: Leverage AI to analyze your code for potential issues, security vulnerabilities, and optimization opportunities.
-- **Customizable Filters**: Focus on specific logs, errors, or warnings using advanced filtering options.
-- **Error Tracking**: Automatically detect and track errors across your application.
-- **Performance Monitoring**: Identify bottlenecks and optimize your application for better performance.
+- **Grade System**: Get a grade for your code based on various metrics like performance, readability, and complexity.
+- **Complexity Analysis**: Get Time Complexity and Space Complexity analysis for your code.
 
 ### Additional Features
 - **User Authentication**: Secure user registration, login, and profile management.
-- **Code Execution**: Execute code snippets directly within the application and view the results.
 - **Submission Management**: Submit, view, and manage code submissions for review.
 - **Cross-Platform Support**: Works seamlessly across different operating systems and environments.
 
@@ -50,7 +47,6 @@ debugzilla/
 │   ├── models/       # Mongoose models
 │   ├── routes/       # API routes
 │   ├── app.js        # Express app setup
-│   └── config/       # Configuration files
 ├── frontend/         # Frontend client code
 │   ├── src/          # React application source
 │   ├── public/       # Static assets
@@ -71,6 +67,7 @@ To set up DebugZilla on your local machine, follow these steps:
 - Node.js (v16 or higher)
 - npm or yarn
 - MongoDB (for backend database)
+- Google Gemini API Key (for AI-powered code analysis)
 
 ### Steps
 
@@ -82,7 +79,7 @@ To set up DebugZilla on your local machine, follow these steps:
 
 2. **Install dependencies**:
    ```bash
-   npm install
+   npm run ia
    ```
 
 3. **Set up environment variables**:
@@ -91,6 +88,9 @@ To set up DebugZilla on your local machine, follow these steps:
      MONGODB_URI=<your-mongodb-uri>
      JWT_SECRET=<your-jwt-secret>
      PORT=5000
+     GEMINI_API_KEY=<your-gemini-api-key>
+     CORS_ORIGIN=http://localhost:5173
+     NODE_ENV=development
      ```
    - Create a `.env` file in the `frontend/` directory with the following variable:
      ```
@@ -101,25 +101,10 @@ To set up DebugZilla on your local machine, follow these steps:
    ```bash
    npm run dev
    ```
+    This will start both the frontend and backend servers concurrently.
 
----
-
-## Usage
-
-### Running the Application
-1. Start the backend server:
-   ```bash
-   npm run backend
-   ```
-   The backend will run on `http://localhost:5000`.
-
-2. Start the frontend development server:
-   ```bash
-   npm run frontend
-   ```
-   The frontend will be accessible at `http://localhost:5173`.
-
-3. Open your browser and navigate to the frontend URL to start using DebugZilla.
+5. **Access the application**:
+   Open your browser and navigate to `http://localhost:5173` to start using DebugZilla.
 
 ---
 
@@ -127,11 +112,10 @@ To set up DebugZilla on your local machine, follow these steps:
 
 The following scripts are available in the project:
 
+- `npm run ia`: Installs dependencies for both the frontend and backend.
 - `npm run dev`: Starts both the frontend and backend servers concurrently.
 - `npm run frontend`: Starts the frontend development server.
 - `npm run backend`: Starts the backend server.
-- `npm run build`: Builds the frontend for production.
-- `npm run test`: Runs the test suite.
 
 ---
 
@@ -142,6 +126,8 @@ The following scripts are available in the project:
 - **Redux Toolkit**: For state management.
 - **TailwindCSS**: For styling.
 - **Vite**: For fast development and build tooling.
+- **Axios**: For making HTTP requests.
+- **React Router**: For client-side routing.
 
 ### Backend
 - **Node.js**: For server-side JavaScript.
@@ -149,10 +135,7 @@ The following scripts are available in the project:
 - **MongoDB**: For database storage.
 - **Mongoose**: For object data modeling (ODM).
 - **JWT**: For secure authentication.
-
-### Additional Tools
-- **Google Generative AI SDK**: For AI-powered code analysis.
-- **ESLint & Prettier**: For code linting and formatting.
+- **Google Gemini API**: For AI-powered code analysis.
 
 ---
 
@@ -160,40 +143,11 @@ The following scripts are available in the project:
 
 We welcome contributions from the community! To contribute:
 
-1. **Fork the repository**:
-   Click the "Fork" button on the repository page.
-
-2. **Create a new branch**:
-   ```bash
-   git checkout -b feature-name
-   ```
-
-3. **Make your changes**:
-   Implement your feature or fix the bug.
-
-4. **Commit your changes**:
-   ```bash
-   git commit -m "Add feature-name"
-   ```
-
-5. **Push to your branch**:
-   ```bash
-   git push origin feature-name
-   ```
-
-6. **Open a pull request**:
-   Submit your pull request for review.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
----
-
-## Contact 
-
-<!-- For questions, feedback, or support, please contact us at [support@debugzilla.com](mailto:support@debugzilla.com). -->
-
-You can also visit our [GitHub repository](https://github.com/hemanthcodecrit50/debugzilla) for more information.
+1. Create a personal fork of the project on Github.
+2. Clone the fork on your local machine.
+3. Add a new remote to the original repository.
+4. Create a new branch for your feature or bug fix.
+5. Make changes to the codebase.
+6. Commit your changes to the new branch.
+7. Push your changes to the remote repository.
+8. Create a new pull request on Github.
