@@ -1,6 +1,7 @@
 const { Submission } = require("../models/submission.models");
 const { User } = require("../models/user.models");
 const { getAIReview } = require("./ai.controller");
+const { exec } = require("child_process"); // Add this to execute code
 
 const submitCode = async (req, res) => {
     try {
@@ -26,8 +27,13 @@ const submitCode = async (req, res) => {
         });
 
         try {
-            console.log("Automatically starting AI review for submission:", savedSubmission._id);
+            console.log("Automatically starting AI review and code execution for submission:", savedSubmission._id);
 
+            // Execute the code and capture the output
+            const output = await executeCode(language, code);
+            savedSubmission.output = output;
+
+            // Perform AI review
             const aiResponse = await getAIReview(code, language);
 
             savedSubmission.processingStatus = "completed";
@@ -45,9 +51,9 @@ const submitCode = async (req, res) => {
 
             await savedSubmission.save();
 
-            console.log("AI review completed automatically");
-        } catch (aiError) {
-            console.error("Error in automatic AI review:", aiError);
+            console.log("AI review and code execution completed successfully");
+        } catch (error) {
+            console.error("Error in automatic AI review or code execution:", error);
             savedSubmission.processingStatus = "pending";
             await savedSubmission.save();
         }
@@ -56,6 +62,38 @@ const submitCode = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Error submitting code", error: error.message });
     }
+};
+
+// Helper function to execute code
+const executeCode = (language, code) => {
+    return new Promise((resolve, reject) => {
+        let command;
+
+        // Define the command based on the language
+        switch (language) {
+            case "JavaScript":
+                command = `node -e "${code.replace(/"/g, '\\"')}"`;
+                break;
+            case "Python":
+                command = `python -c "${code.replace(/"/g, '\\"')}"`;
+                break;
+            case "Java":
+                // Add Java execution logic here
+                break;
+            case "C++":
+                // Add C++ execution logic here
+                break;
+            default:
+                return reject(new Error("Unsupported language"));
+        }
+
+        exec(command, (error, stdout, stderr) => {
+            if (error) {
+                return reject(new Error(stderr || "Error executing code"));
+            }
+            resolve(stdout.trim());
+        });
+    });
 };
 
 const getSubmissions = async (req, res) => {

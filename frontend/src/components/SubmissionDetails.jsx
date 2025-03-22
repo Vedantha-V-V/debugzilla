@@ -34,7 +34,8 @@ const SubmissionDetails = () => {
         <div className="max-w-4xl mx-auto">
           <h1 className="h2 mb-6">{submission.title}</h1>
           <p className="mb-4 text-n-3">{submission.description}</p>
-          
+
+          {/* Code Section */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               <h3 className="h5">Code</h3>
@@ -47,22 +48,24 @@ const SubmissionDetails = () => {
             </div>
           </div>
 
-          {/* Status indicator */}
-          {submission.processingStatus !== "completed" && (
-            <div className="mb-8 p-5 bg-n-6 border border-color-2 rounded-lg text-center">
-              <h4 className="font-bold text-lg mb-2">Review Status</h4>
-              <div className="inline-block px-6 py-3 rounded-full bg-n-8 text-xl">
-                <span className="animate-pulse">{submission.processingStatus === "in review" ? "Review in progress..." : "Waiting for review..."}</span>
+          {/* Code Output */}
+          {submission.output && (
+            <div className="mb-8">
+              <h3 className="h5 mb-4">Code Output</h3>
+              <div className="bg-n-7 p-4 rounded-lg overflow-auto max-h-[400px]">
+                <pre className="text-n-1 font-code">
+                  <code>{submission.output}</code>
+                </pre>
               </div>
-              <p className="mt-4 text-n-3">Refresh this page periodically to see the results</p>
             </div>
           )}
 
+          {/* AI Review Results */}
           {submission.feedback && (
             <div className="mb-8">
               <h3 className="h5 mb-4">AI Code Review Results</h3>
               
-              {/* Grade Display - Shown at the top */}
+              {/* Grade Display */}
               <div className="mb-4 p-5 bg-n-6 border border-color-1 rounded-lg text-center">
                 <h4 className="font-bold text-lg mb-2">Code Grade</h4>
                 <div className="inline-block px-6 py-3 rounded-full bg-n-8 text-4xl text-color-1 font-bold">
@@ -109,13 +112,24 @@ const SubmissionDetails = () => {
                 </div>
               </div>
 
-              {/* Feedback Box - Full width at the bottom */}
+              {/* Feedback Box */}
               <div className="p-4 bg-n-6 border border-color-5 rounded-lg">
                 <h4 className="font-bold text-color-5 mb-2">Detailed Feedback</h4>
                 <div className="mt-2 bg-n-7 p-3 rounded prose prose-invert prose-sm max-w-none">
                   <ReactMarkdown>{submission.feedback.aiReview}</ReactMarkdown>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Status Indicator */}
+          {submission.processingStatus !== "completed" && (
+            <div className="mb-8 p-5 bg-n-6 border border-color-2 rounded-lg text-center">
+              <h4 className="font-bold text-lg mb-2">Review Status</h4>
+              <div className="inline-block px-6 py-3 rounded-full bg-n-8 text-xl">
+                <span className="animate-pulse">{submission.processingStatus === "in review" ? "Review in progress..." : "Waiting for review..."}</span>
+              </div>
+              <p className="mt-4 text-n-3">Refresh this page periodically to see the results</p>
             </div>
           )}
         </div>
