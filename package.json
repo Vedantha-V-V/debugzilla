@@ -9,10 +9,17 @@
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "ia": "npm i && cd frontend && npm install && cd ../backend && npm install"
   },
-  "keywords": ["code-review", "ai", "debugging"],
+  "keywords": [
+    "code-review",
+    "ai",
+    "debugging"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "react-icons": "^5.5.0"
   }
 }
