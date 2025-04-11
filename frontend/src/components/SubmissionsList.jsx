@@ -56,7 +56,10 @@ const SubmissionsList = () => {
         <p className="text-center text-n-3">You haven't submitted any code yet.</p>
       ) : (
         <div className="space-y-4">
-          {submissions?.map((submission) => (
+          {submissions
+            ?.slice()
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+            .map((submission) => (
             <div key={submission._id} className="relative">
               <Link 
                 to={`/submission/${submission._id}`}

@@ -4,14 +4,14 @@ import Section from './Section';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { register, login, reset } from '../redux/slices/authSlice';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
+import { FaEye, FaEyeSlash, FaGithub, FaGoogle } from 'react-icons/fa';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState('');
 
   const navigate = useNavigate();
@@ -46,6 +46,14 @@ const Signup = () => {
     } catch (error) {
       setFormError(error);
     }
+  };
+
+  const handleGithubLogin = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/github`;
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
   };
 
   return (
@@ -133,6 +141,32 @@ const Signup = () => {
                 {isLoading ? 'Creating account...' : 'Sign Up'}
               </Button>
             </form>
+
+            <div className="mt-6">
+              <div className="flex items-center mb-4">
+                <div className="flex-1 h-px bg-n-6"></div>
+                <span className="px-4 text-n-3 text-sm">OR CONTINUE WITH</span>
+                <div className="flex-1 h-px bg-n-6"></div>
+              </div>
+              
+              <div className="flex gap-4">
+                <button
+                  onClick={handleGithubLogin}
+                  className="flex-1 flex justify-center items-center gap-2 bg-n-7 hover:bg-n-6 text-white py-2 px-4 rounded-md transition-colors"
+                >
+                  <FaGithub size={20} />
+                  GitHub
+                </button>
+                
+                <button
+                  onClick={handleGoogleLogin}
+                  className="flex-1 flex justify-center items-center gap-2 bg-n-7 hover:bg-n-6 text-white py-2 px-4 rounded-md transition-colors"
+                >
+                  <FaGoogle size={20} />
+                  Google
+                </button>
+              </div>
+            </div>
 
             <div className="mt-5 text-center">
               Already have an account?{' '}

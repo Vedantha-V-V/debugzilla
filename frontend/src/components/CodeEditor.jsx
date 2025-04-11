@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Section from './Section';
@@ -15,6 +15,7 @@ const CodeEditor = () => {
   const [description, setDescription] = useState('');
   const [language, setLanguage] = useState('JavaScript');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const loadingIndicatorRef = useRef(null);
   
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const CodeEditor = () => {
 
   useEffect(() => {
     if (isSuccess && submission) {
+      window.scrollTo(0, 0);
       navigate(`/submission/${submission._id}`);
     }
 
@@ -51,6 +53,15 @@ const CodeEditor = () => {
       language,
       code
     }));
+    
+    setTimeout(() => {
+      if (loadingIndicatorRef.current) {
+        loadingIndicatorRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+      }
+    }, 100);
   };
 
   return (
@@ -137,7 +148,10 @@ const CodeEditor = () => {
 
       {/* Loading Indicator */}
       {(isLoading || isSubmitting) && (
-        <div className="text-center p-6 font-semibold">
+        <div 
+          ref={loadingIndicatorRef}
+          className="text-center p-6 font-semibold"
+        >
           <div className="flex items-center justify-center space-x-3">
             <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-color-1"></div>
             <span className="text-lg">Submitting and analyzing your code...</span>
