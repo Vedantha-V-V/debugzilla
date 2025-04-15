@@ -23,11 +23,13 @@ DebugZilla is a comprehensive code review tool designed to streamline the proces
 DebugZilla offers a wide range of features to enhance the debugging and development experience:
 
 ### Core Features
+
 - **AI-Powered Code Review**: Leverage AI to analyze your code for potential issues, security vulnerabilities, and optimization opportunities.
 - **Grade System**: Get a grade for your code based on various metrics like performance, readability, and complexity.
 - **Complexity Analysis**: Get Time Complexity and Space Complexity analysis for your code.
 
 ### Additional Features
+
 - **User Authentication**: Secure user registration, login, and profile management.
 - **Submission Management**: Submit, view, and manage code submissions for review.
 - **Cross-Platform Support**: Works seamlessly across different operating systems and environments.
@@ -47,13 +49,15 @@ debugzilla/
 │   ├── models/       # Mongoose models
 │   ├── routes/       # API routes
 │   ├── app.js        # Express app setup
+│   └── package.json  # Backend scripts and dependencies
 ├── frontend/         # Frontend client code
 │   ├── src/          # React application source
 │   ├── public/       # Static assets
 │   ├── index.html    # HTML entry point
-│   └── vite.config.js # Vite configuration
+│   ├── vite.config.js # Vite configuration
+│   └── package.json  # Frontend scripts and dependencies
 ├── .gitignore        # Git ignore file
-├── package.json      # Project metadata and scripts
+├── package.json      # Workspace root (optional)
 └── README.md         # Project documentation
 ```
 
@@ -64,6 +68,7 @@ debugzilla/
 To set up DebugZilla on your local machine, follow these steps:
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or yarn
 - MongoDB (for backend database)
@@ -72,17 +77,20 @@ To set up DebugZilla on your local machine, follow these steps:
 ### Steps
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/yourusername/debugzilla.git
    cd debugzilla
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm run ia
    ```
 
 3. **Set up environment variables**:
+
    - Create a `.env` file in the `backend/` directory with the following variables:
      ```
      MONGODB_URI=<your-mongodb-uri>
@@ -91,6 +99,12 @@ To set up DebugZilla on your local machine, follow these steps:
      GEMINI_API_KEY=<your-gemini-api-key>
      CORS_ORIGIN=http://localhost:5173
      NODE_ENV=development
+     GITHUB_CLIENT_ID=<your-github-client-id>
+     GITHUB_CLIENT_SECRET=<your-github-client-secret>
+     GOOGLE_CLIENT_ID=<your-google-client-id>
+     GOOGLE_CLIENT_SECRET=<your-google-client-secret>
+     BACKEND_URL=http://localhost:5000
+     FRONTEND_URL=http://localhost:5173
      ```
    - Create a `.env` file in the `frontend/` directory with the following variable:
      ```
@@ -98,10 +112,12 @@ To set up DebugZilla on your local machine, follow these steps:
      ```
 
 4. **Start the application**:
+
    ```bash
    npm run dev
    ```
-    This will start both the frontend and backend servers concurrently.
+
+   This will start both the frontend and backend servers concurrently.
 
 5. **Access the application**:
    Open your browser and navigate to `http://localhost:5173` to start using DebugZilla.
@@ -122,6 +138,7 @@ The following scripts are available in the project:
 ## Technologies Used
 
 ### Frontend
+
 - **React**: For building the user interface.
 - **Redux Toolkit**: For state management.
 - **TailwindCSS**: For styling.
@@ -130,6 +147,7 @@ The following scripts are available in the project:
 - **React Router**: For client-side routing.
 
 ### Backend
+
 - **Node.js**: For server-side JavaScript.
 - **Express.js**: For building the REST API.
 - **MongoDB**: For database storage.
